@@ -18,21 +18,18 @@ import com.bsva.dcqs.dto.DeliveryFilesResponsePayloadDto;
 @RequestMapping(path = "/dcqs") // Root path
 
 public class DeliveryDataController {
-	
+
 	@Autowired
 	DeliveryFilesService deliveryFilesService;
-	
-	@Autowired
-	private ModelMapper modelMapper;
-	
-	@GetMapping("/delivery/{filename}")  
-	private DeliveryFiles getFileStatus(@PathVariable("filename") String filename)     
-	{
-		 DeliveryFiles deliveryFiles = deliveryFilesService.getFileDetails(filename);
-		//DeliveryFilesResponsePayloadDto postResponse = modelMapper.map(deliveryFiles, DeliveryFilesResponsePayloadDto.class);
-		 
+
+	// @Autowired
+	// private ModelMapper modelMapper;
+
+	@GetMapping("/delivery/{filename}")
+	private DeliveryFiles getFileStatus(@PathVariable("filename") String filename) throws Exception {
+		DeliveryFiles deliveryFiles = deliveryFilesService.getFileDetails(filename);
 		return deliveryFiles;
-		   
+
 	}
 
 }

@@ -40,8 +40,11 @@ import com.bsva.dcqs.util.DateFormatter;
 import com.bsva.dcqs.enums.FileTypes;
 import com.bsva.dcqs.model.DeliveryFileTypes;
 import com.bsva.dcqs.repository.DeliveryFileTypesRepository;
+import com.bsva.dcqs.repository.DeliveryFilesRepository;
 import com.bsva.dcqs.service.DeliveryFileTypeServiceImpl;
 import com.bsva.dcqs.service.DeliveryFileTypesService;
+import com.bsva.dcqs.service.DeliveryFilesService;
+
 import org.springframework.core.io.UrlResource;
 
 @RestController
@@ -64,6 +67,9 @@ public class BatchController {
 
 	@Autowired
 	DeliveryFileTypesService deliveryFileTypesService;
+	
+	@Autowired
+	DeliveryFilesService deliveryFilesService;
 
 	@GetMapping("/loadfilenames")
 	//@Scheduled(cron = "0 */5 * ? * *")
@@ -71,7 +77,9 @@ public class BatchController {
 	private void saveFileTypes() {
 		String[] fileTypesArray = new String[] { FileTypes.files_in.toString(), FileTypes.files_out.toString(),
 				FileTypes.errorlog.toString() };
-
+		
+		deliveryFilesService.deleteDeliveryFilesOlderThanOneWeek();
+		
 		for (String fileType : fileTypesArray) {
 			DeliveryFileTypes types = new DeliveryFileTypes();
 			types.setFileType(fileType);

@@ -14,21 +14,20 @@ import org.springframework.beans.factory.annotation.Value;
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
 
-    @Autowired
+	@Autowired
 	DeliveryFilesService deliveryFileTypeService;
-    
-    @Autowired
-    public JobCompletionNotificationListener(DeliveryFilesService deliveryFileTypeService) {
-        this.deliveryFileTypeService = deliveryFileTypeService;
-    }
 
-    @Override
-    public void afterJob(JobExecution jobExecution) {
-       
-        if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-        	
-        	
-        	//deliveryFilesRepository.deleteById(id);
-        }
-    }
+	@Autowired
+	public JobCompletionNotificationListener(DeliveryFilesService deliveryFileTypeService) {
+		this.deliveryFileTypeService = deliveryFileTypeService;
+	}
+
+	@Override
+	public void afterJob(JobExecution jobExecution) {
+
+		if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
+
+			deliveryFileTypeService.deleteByprocessingDate("processing_date");
+		}
+	}
 }
