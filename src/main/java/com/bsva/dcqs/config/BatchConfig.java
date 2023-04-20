@@ -2,6 +2,8 @@ package com.bsva.dcqs.config;
 
 import java.io.File;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -54,6 +56,7 @@ public class BatchConfig {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Bean
 	@StepScope
+   
 	public FlatFileItemReader<DeliveryFiles> reader(@Value("#{jobParameters[filename]}") final String filename) {
 
 		FlatFileItemReader<DeliveryFiles> reader = new FlatFileItemReader();
@@ -109,6 +112,7 @@ public class BatchConfig {
 	}
 
 	@Bean
+	//@PostConstruct
 	public Job importCsvFileJob(JobCompletionNotificationListener listener, Step step1) throws Exception {
 
 		return this.jobBuilderFactory.get("importCsvFileJob").incrementer(new RunIdIncrementer()).listener(listener)
